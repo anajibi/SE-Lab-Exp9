@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  frontend:
+    build:
+      context: ./front-end
+      dockerfile: Dockerfile
+    image: front-end:1.0.0
+    ports:
+      - "3000:3000"
+
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    image: gateway:1.0.0
+    ports:
+      - "8080:8080"
+    environment:
+      - BACKEND_BASE=http://host.docker.internal
+
+  backend1:
+    build:
+      context: ./addition
+      dockerfile: Dockerfile
+    image: addition:1.0.0
+    ports:
+      - "8091:8091"
+
+  backend2:
+    build:
+      context: ./subtraction
+      dockerfile: Dockerfile
+    image: subtraction:1.0.0
+    ports:
+      - "8092:8092"

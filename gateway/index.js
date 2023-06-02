@@ -5,8 +5,10 @@ const cors = require('cors');
 const app = express();
 const port = 8080
 
-const additionServiceUrl = 'http://localhost:8091/api';
-const subtractionServiceUrl = 'http://localhost:8092/api';
+const base = process.env.BACKEND_BASE || 'http://localhost';
+
+const additionServiceUrl = `${base}:8091/api`
+const subtractionServiceUrl = `${base}:8092/api`
 
 app.use(cors());
 app.post('/api/add/:number1/:number2', async (req, res) => {

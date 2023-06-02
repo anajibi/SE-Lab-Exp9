@@ -102,3 +102,26 @@ Now, we can open the front-end service in the browser and test it.
 ![img.png](images/app-running-bul-add.png)
 
 Now, to be able to follow and track the logs, we will add some logs to the back-end services, and the gateway.
+
+## Docker
+In this step, we will write docker files for all 4 services, and lastly, a docker-compose file to run all of them together.
+
+
+Now that we have added all the docker files, we will build the image for them:
+```shell
+docker build -t front-end:1.0.0 ./front-end
+docker build -t gateway:1.0.0 ./gateway
+docker build -t addition:1.0.0 ./addition
+docker build -t subtraction:1.0.0 ./subtraction
+```
+![img.png](images/build1.png)
+![img_1.png](images/build1.1.png)
+
+Now, to test it, since microservices are mostly deployed together, we will use docker-compose to run all of them together:
+
+
+
+
+
+#### The services run successfully, but the gateway could not connect to the back-end services, which is due to the fact that docker puts each service in a separate network, so, instead of localhost, we should use "host.docker.internal" in the code of gateway.
+We will use environment variable for this matter:
