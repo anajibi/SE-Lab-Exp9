@@ -34,3 +34,7 @@ cd ..
 git add .
 git commit -m "Add front-end service"
 ```
+There are some unnecessary files that are created by the create-react-app command and we will remove them and 
+also complete the implementation of the front-end service.
+
+It will accept two numbers from user, and perform the operation on them and show the result to the user.
