@@ -38,3 +38,45 @@ There are some unnecessary files that are created by the create-react-app comman
 also complete the implementation of the front-end service.
 
 It will accept two numbers from user, and perform the operation on them and show the result to the user.
+
+## Back-end Services 1 (Addition)
+This service is implemented using Node.js and Express.js.
+
+### Implementation
+- We will use port 8091 for the addition service.
+```shell
+mkdir "addition"
+cd "addition"
+npm init -y
+npm install express --save
+echo "/node_modules" >> .gitignore
+```
+
+## Back-end Services 2 (Subtraction)
+This service is implemented using Node.js and Express.js.
+
+### Implementation
+- We will use port 8092 for the subtraction service.
+```shell
+mkdir "subtraction"
+cd "subtraction"
+npm init -y
+npm install express --save
+echo "/node_modules" >> .gitignore
+```
+
+
+
+## Gateway Service
+The gateway service is responsible for routing requests from the front-end service to the appropriate back-end service.
+The gateway service will be implemented using Node.js and Express.js.
+
+### Implementation
+- We will use port 8080 for the gateway service.
+```shell
+mkdir "gateway"
+cd "gateway"
+npm init -y
+npm install express --save
+
+```
