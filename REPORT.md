@@ -78,5 +78,6 @@ mkdir "gateway"
 cd "gateway"
 npm init -y
 npm install express --save
-
+npm install axios --save
+echo "/node_modules" >> .gitignore
 ```
