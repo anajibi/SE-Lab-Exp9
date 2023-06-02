@@ -81,3 +81,24 @@ npm install express --save
 npm install axios --save
 echo "/node_modules" >> .gitignore
 ```
+
+Now, let's test these services without docker to make sure everything is working fine.
+First, we need to run the back-end services:
+```shell
+cd "addition"
+node index.js
+```
+```shell
+cd "subtraction"
+node index.js
+```
+Now, we can run the gateway service:
+```shell
+cd "gateway"
+node index.js
+```
+Now, we can open the front-end service in the browser and test it.
+![img.png](images/app-running-bulk-sub.png)
+![img.png](images/app-running-bul-add.png)
+
+Now, to be able to follow and track the logs, we will add some logs to the back-end services, and the gateway.

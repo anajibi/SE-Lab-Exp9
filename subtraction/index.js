@@ -7,7 +7,8 @@ app.post('/api/subtract', (req, res) => {
     const number1 = +req.query.number1;
     const number2 = +req.query.number2;
     const result = number1 - number2;
-    res.json({result});
+    res.json({result}).end();
+    console.log(`Subtraction service called from ${req.ip} with number1=${number1} and number2=${number2}`);
 })
 
 

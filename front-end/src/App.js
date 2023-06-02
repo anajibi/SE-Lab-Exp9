@@ -9,26 +9,28 @@ function App() {
     const [result, setResult] = useState("No result yet");
 
     return (<div className="App">
-            <header className="App-header">
-                Simple Front-end app
-            </header>
-            <label>Enter two numbers to add/subtract:</label>
-            <input type="number" placeholder="Enter the first number"
-                   onChange={event => setNumber1(+event.target.value)}
-            />
-            <input type="number" placeholder="Enter the second number"
-                   onChange={event => setNumber2(+event.target.value)}
-            />
-            <button onClick={() => {
-                addApi(number1, number2).then(result => setResult(result.result));
-            }}>Add
-            </button>
-            <button onClick={() => {
-                subtractApi(number1, number2).then(result => setResult(result.result));
-            }}>Subtract
-            </button>
-            <p>Result: {result}</p>
-        </div>);
+        <header className="App-header">
+            Simple Front-end app
+        </header>
+        <label>Enter two numbers to add/subtract:</label>
+        <input type="number" placeholder="Enter the first number"
+               onChange={event => setNumber1(+event.target.value)}
+        />
+        <input type="number" placeholder="Enter the second number"
+               onChange={event => setNumber2(+event.target.value)}
+        />
+        <button onClick={() => {
+            addApi(number1, number2).then(result => setResult(result.result))
+                .catch(error => setResult("Error: " + error.message));
+        }}>Add
+        </button>
+        <button onClick={() => {
+            subtractApi(number1, number2).then(result => setResult(result.result))
+                .catch(error => setResult("Error: " + error.message));
+        }}>Subtract
+        </button>
+        <p>Result: {result}</p>
+    </div>);
 }
 
 
