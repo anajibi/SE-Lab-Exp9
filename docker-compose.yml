@@ -19,7 +19,7 @@ services:
     environment:
       - BACKEND_BASE=http://host.docker.internal
 
-  backend1:
+  addition-service:
     build:
       context: ./addition
       dockerfile: Dockerfile
@@ -27,7 +27,7 @@ services:
     ports:
       - "8091:8091"
 
-  backend2:
+  subtraction-service:
     build:
       context: ./subtraction
       dockerfile: Dockerfile

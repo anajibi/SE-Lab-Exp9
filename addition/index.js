@@ -8,6 +8,7 @@ app.post('/api/add', (req, res) => {
     const number2 = +req.query.number2;
     const result = number1 + number2;
     res.json({result});
+    console.log(`Addition service called from ${req.ip} with number1=${number1} and number2=${number2}`);
 })
 
 app.listen(port, () => {

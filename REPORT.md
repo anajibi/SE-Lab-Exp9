@@ -118,10 +118,71 @@ docker build -t subtraction:1.0.0 ./subtraction
 ![img_1.png](images/build1.1.png)
 
 Now, to test it, since microservices are mostly deployed together, we will use docker-compose to run all of them together:
-
-
-
-
-
-#### The services run successfully, but the gateway could not connect to the back-end services, which is due to the fact that docker puts each service in a separate network, so, instead of localhost, we should use "host.docker.internal" in the code of gateway.
+After running the docker compose and testing the application, we can see from the logs that the 
+gateway can not connect to back-end services with the error "ERRCONNREFUSED". This is because docker puts each service in a separate network, so, instead of localhost, we should use "host.docker.internal" in the code of gateway.
 We will use environment variable for this matter:
+- add this line to 'gateway/index.js'
+```js
+const base = process.env.BACKEND_BASE || 'http://localhost';
+
+const additionServiceUrl = `${base}:8091/api`
+const subtractionServiceUrl = `${base}:8092/api`
+```
+
+- add this to docker-compose file:
+```yaml
+    environment:
+      - BACKEND_BASE=http://host.docker.internal
+```
+
+Now, you can see the result:
+```shell
+❯ docker-compose up
+Creating network "9_default" with the default driver
+Creating 9_addition-service_1    ... done
+Creating 9_subtraction-service_1 ... done
+Creating 9_frontend_1            ... done
+Creating 9_gateway_1             ... done
+Attaching to 9_subtraction-service_1, 9_addition-service_1, 9_frontend_1, 9_gateway_1
+addition-service_1     |
+addition-service_1     | > addition@1.0.0 start /app
+addition-service_1     | > node index.js
+addition-service_1     |
+addition-service_1     | Addition service listening at http://localhost:8091
+subtraction-service_1  |
+subtraction-service_1  | > subtraction@1.0.0 start /app
+subtraction-service_1  | > node index.js
+subtraction-service_1  |
+subtraction-service_1  | Subtraction service listening at http://localhost:8092
+gateway_1              | 
+gateway_1              | > gateway@1.0.0 start /app
+gateway_1              | > node index.js
+gateway_1              |
+gateway_1              | Gateway listening at http://localhost:8080
+frontend_1             |  INFO  Accepting connections at http://localhost:3000
+frontend_1             |  HTTP  6/2/2023 6:56:36 PM 172.21.0.1 GET /
+frontend_1             |  HTTP  6/2/2023 6:56:36 PM 172.21.0.1 Returned 304 in 16 ms
+frontend_1             |  HTTP  6/2/2023 6:56:36 PM 172.21.0.1 GET /static/js/main.3e955fe2.js
+frontend_1             |  HTTP  6/2/2023 6:56:36 PM 172.21.0.1 Returned 304 in 3 ms
+frontend_1             |  HTTP  6/2/2023 6:56:36 PM 172.21.0.1 GET /static/css/main.87d6e283.css
+frontend_1             |  HTTP  6/2/2023 6:56:36 PM 172.21.0.1 Returned 304 in 2 ms
+frontend_1             |  HTTP  6/2/2023 6:56:36 PM 172.21.0.1 GET /manifest.json
+frontend_1             |  HTTP  6/2/2023 6:56:36 PM 172.21.0.1 GET /favicon.ico
+frontend_1             |  HTTP  6/2/2023 6:56:36 PM 172.21.0.1 Returned 304 in 5 ms
+frontend_1             |  HTTP  6/2/2023 6:56:36 PM 172.21.0.1 Returned 304 in 4 ms
+frontend_1             |  HTTP  6/2/2023 6:56:36 PM 172.21.0.1 GET /logo192.png
+frontend_1             |  HTTP  6/2/2023 6:56:36 PM 172.21.0.1 Returned 304 in 3 ms
+gateway_1              | Gateway service called from ::ffff:172.21.0.1 with number1=1000 and number2=120
+addition-service_1     | Addition service called from ::ffff:172.21.0.1 with number1=1000 and number2=120
+gateway_1              | Backend1 service returned {"result":1120}
+gateway_1              | Gateway service called from ::ffff:172.21.0.1 with number1=1000 and number2=120
+subtraction-service_1  | Subtraction service called from ::ffff:172.21.0.1 with number1=1000 and number2=120
+gateway_1              | Backend2 service returned {"result":880}
+gateway_1              | Gateway service called from ::ffff:172.21.0.1 with number1=100012 and number2=12023
+addition-service_1     | Addition service called from ::ffff:172.21.0.1 with number1=100012 and number2=12023
+gateway_1              | Backend1 service returned {"result":112035}
+gateway_1              | Gateway service called from ::ffff:172.21.0.1 with number1=100012 and number2=12023
+subtraction-service_1  | Subtraction service called from ::ffff:172.21.0.1 with number1=100012 and number2=12023
+gateway_1              | Backend2 service returned {"result":87989}
+```
+![img.png](images/docker-compose-result.png)
